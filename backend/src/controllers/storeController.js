@@ -6,7 +6,6 @@ export const addStore = async (req, res, next) => {
   try {
     const { name, email, address, ownerId } = req.body;
 
-    // Validation
     const validation = validateStoreData({ name, email, address });
     if (!validation.valid) {
       return res.status(400).json({ errors: validation.errors });
@@ -16,7 +15,6 @@ export const addStore = async (req, res, next) => {
       return res.status(400).json({ error: "Owner ID is required" });
     }
 
-    // Check if store email already exists
     const existingStore = await Store.findByEmail(email);
     if (existingStore) {
       return res.status(400).json({ error: "Store email already registered" });
@@ -85,7 +83,6 @@ export const updateStore = async (req, res, next) => {
     const storeId = req.params.id;
     const { name, email, address } = req.body;
 
-    // Validate data
     if (name || email || address) {
       const validation = validateStoreData({
         name: name || "",

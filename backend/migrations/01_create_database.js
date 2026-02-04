@@ -13,10 +13,7 @@ const client = new Client({
   password: process.env.DB_PASSWORD,
 });
 
-const queries = [
-  // Create database if it doesn't exist
-  `CREATE DATABASE ${process.env.DB_NAME}`,
-];
+const queries = [`CREATE DATABASE ${process.env.DB_NAME}`];
 
 async function runMigrations() {
   try {

@@ -69,7 +69,6 @@ export class Store {
 
     query += ` GROUP BY s.id`;
 
-    // Sorting
     const validSortFields = { id: 1, name: 1, email: 1, address: 1, rating: 1 };
     if (filters.sortBy && filters.sortBy in validSortFields) {
       if (filters.sortBy === "rating") {
@@ -81,14 +80,12 @@ export class Store {
       query += ` ORDER BY s.id ASC`;
     }
 
-    // Pagination
     const offset = (page - 1) * limit;
     query += ` LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
     params.push(limit, offset);
 
     const result = await pool.query(query, params);
 
-    // Get total count
     let countQuery = `SELECT COUNT(DISTINCT s.id) FROM stores s WHERE 1=1`;
     const countParams = [];
     let countParamCount = 1;

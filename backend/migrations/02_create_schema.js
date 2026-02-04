@@ -5,7 +5,6 @@ dotenv.config();
 
 const { Client } = pkg;
 
-// Support both DATABASE_URL (for Render) and individual env vars (for local)
 const clientConfig = process.env.DATABASE_URL
   ? {
       connectionString: process.env.DATABASE_URL,
@@ -22,7 +21,6 @@ const clientConfig = process.env.DATABASE_URL
 const client = new Client(clientConfig);
 
 const queries = [
-  // Create users table
   `CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(60) NOT NULL,
@@ -34,7 +32,6 @@ const queries = [
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   )`,
 
-  // Create stores table
   `CREATE TABLE IF NOT EXISTS stores (
     id SERIAL PRIMARY KEY,
     name VARCHAR(60) NOT NULL,
@@ -46,7 +43,6 @@ const queries = [
     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
   )`,
 
-  // Create ratings table
   `CREATE TABLE IF NOT EXISTS ratings (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
@@ -59,7 +55,6 @@ const queries = [
     FOREIGN KEY (store_id) REFERENCES stores(id) ON DELETE CASCADE
   )`,
 
-  // Create indexes
   `CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)`,
   `CREATE INDEX IF NOT EXISTS idx_users_role ON users(role)`,
   `CREATE INDEX IF NOT EXISTS idx_stores_owner_id ON stores(owner_id)`,

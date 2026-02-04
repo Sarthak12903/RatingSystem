@@ -18,21 +18,17 @@ import {
 
 const router = express.Router();
 
-// All admin routes require authentication and admin role
 router.use(authenticateToken);
 router.use(authorizeRole("admin"));
 
-// Dashboard
 router.get("/dashboard", getDashboard);
 
-// User management
 router.post("/users", addUser);
 router.get("/users", getUsers);
 router.get("/users/:id", getUserDetails);
 router.put("/users/:id", updateUser);
 router.delete("/users/:id", deleteUser);
 
-// Store management
 router.post("/stores", addStore);
 router.get("/stores", getStores);
 router.get("/stores/:id", getStoreDetails);

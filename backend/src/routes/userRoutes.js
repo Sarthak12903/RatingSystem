@@ -10,10 +10,8 @@ import { getStoreAverageRating } from "../controllers/ratingController.js";
 
 const router = express.Router();
 
-// All user routes require authentication
 router.use(authenticateToken);
 
-// Only normal users can access store listings and submit ratings
 router.get("/stores", authorizeRole("normal_user", "user", "admin"), getStores);
 router.get(
   "/stores/:id",
@@ -21,7 +19,6 @@ router.get(
   getStoreDetails,
 );
 
-// Rating endpoints
 router.post("/ratings", authorizeRole("normal_user", "user"), submitRating);
 router.get(
   "/ratings/store/:storeId",

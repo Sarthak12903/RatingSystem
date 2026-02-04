@@ -68,7 +68,6 @@ export class User {
       paramCount++;
     }
 
-    // Sorting
     if (
       filters.sortBy &&
       filters.sortBy in { id: 1, name: 1, email: 1, address: 1, role: 1 }
@@ -78,14 +77,12 @@ export class User {
       query += ` ORDER BY id ASC`;
     }
 
-    // Pagination
     const offset = (page - 1) * limit;
     query += ` LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
     params.push(limit, offset);
 
     const result = await pool.query(query, params);
 
-    // Get total count
     let countQuery = `SELECT COUNT(*) FROM users WHERE 1=1`;
     const countParams = [];
     let countParamCount = 1;

@@ -6,6 +6,13 @@ Built with **Express.js** (Backend), **PostgreSQL** (Database), **React.js** + *
 
 ---
 
+## 🌐 Live Demo
+
+🔗 **Frontend**: [rating-system-sigma.vercel.app](https://rating-system-sigma.vercel.app)  
+🔗 **Backend API**: [ratingsystem-ztjj.onrender.com](https://ratingsystem-ztjj.onrender.com)
+
+---
+
 ## Default Login Credentials
 
 > ⚠️ **Important**: These are the default seeded credentials for testing purposes.

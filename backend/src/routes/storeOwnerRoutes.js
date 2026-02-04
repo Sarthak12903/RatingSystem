@@ -7,11 +7,9 @@ import {
 
 const router = express.Router();
 
-// All store owner routes require authentication
 router.use(authenticateToken);
 router.use(authorizeRole("store_owner"));
 
-// Store owner dashboard
 router.get("/dashboard/:storeId", getStoreAverageRating);
 router.get("/dashboard/:id/ratings", getStoreRatings);
 

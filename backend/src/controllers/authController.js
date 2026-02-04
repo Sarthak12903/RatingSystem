@@ -40,7 +40,6 @@ export const login = async (req, res, next) => {
       address: user.address,
     };
 
-    // If store owner, include their store ID
     if (user.role === "store_owner") {
       const storeResult = await pool.query(
         "SELECT id FROM stores WHERE owner_id = $1",
@@ -65,19 +64,16 @@ export const signup = async (req, res, next) => {
   try {
     const { name, email, password, address } = req.body;
 
-    // Validation
     const validation = validateUserSignup({ name, email, password, address });
     if (!validation.valid) {
       return res.status(400).json({ errors: validation.errors });
     }
 
-    // Check if user already exists
     const existingUser = await User.findByEmail(email);
     if (existingUser) {
       return res.status(400).json({ error: "Email already registered" });
     }
 
-    // Create user
     const user = await User.create({
       name,
       email,
@@ -113,13 +109,11 @@ export const updatePassword = async (req, res, next) => {
       return res.status(400).json({ error: "Old and new password required" });
     }
 
-    // Get user
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Verify old password
     const passwordMatch = await User.validatePassword(
       oldPassword,
       (await User.findByEmail(user.email)).password,
@@ -128,13 +122,11 @@ export const updatePassword = async (req, res, next) => {
       return res.status(401).json({ error: "Old password is incorrect" });
     }
 
-    // Validate new password
     const passwordValidation = validatePassword(newPassword);
     if (!passwordValidation.valid) {
       return res.status(400).json({ error: passwordValidation.error });
     }
 
-    // Update password
     await User.update(userId, { password: newPassword });
 
     res.json({ message: "Password updated successfully" });

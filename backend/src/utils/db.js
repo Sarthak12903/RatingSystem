@@ -5,7 +5,6 @@ dotenv.config();
 
 const { Pool } = pkg;
 
-// Support both DATABASE_URL (for Render) and individual env vars (for local)
 const pool = process.env.DATABASE_URL
   ? new Pool({
       connectionString: process.env.DATABASE_URL,

@@ -11,19 +11,16 @@ export const submitRating = async (req, res, next) => {
       return res.status(400).json({ error: "Store ID is required" });
     }
 
-    // Validate rating
     const ratingValidation = validateRating(rating);
     if (!ratingValidation.valid) {
       return res.status(400).json({ error: ratingValidation.error });
     }
 
-    // Check if store exists
     const store = await Store.findById(storeId);
     if (!store) {
       return res.status(404).json({ error: "Store not found" });
     }
 
-    // Create or update rating
     const ratingRecord = await Rating.create({
       userId,
       storeId,

@@ -77,24 +77,20 @@ export const validateRating = (rating) => {
 export const validateUserSignup = (data) => {
   const errors = [];
 
-  // Name validation
   const nameValidation = validateName(data.name);
   if (!nameValidation.valid) {
     errors.push(nameValidation.error);
   }
 
-  // Email validation
   if (!validateEmail(data.email)) {
     errors.push("Invalid email format");
   }
 
-  // Password validation
   const passwordValidation = validatePassword(data.password);
   if (!passwordValidation.valid) {
     errors.push(passwordValidation.error);
   }
 
-  // Address validation (optional for signup)
   if (data.address) {
     const addressValidation = validateAddress(data.address);
     if (!addressValidation.valid) {
@@ -111,18 +107,15 @@ export const validateUserSignup = (data) => {
 export const validateStoreData = (data) => {
   const errors = [];
 
-  // Name validation
   const nameValidation = validateName(data.name);
   if (!nameValidation.valid) {
     errors.push(nameValidation.error);
   }
 
-  // Email validation
   if (!validateEmail(data.email)) {
     errors.push("Invalid email format");
   }
 
-  // Address validation
   if (!data.address) {
     errors.push("Address is required");
   } else {

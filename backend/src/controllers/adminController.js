@@ -29,24 +29,20 @@ export const addUser = async (req, res, next) => {
   try {
     const { name, email, password, address, role } = req.body;
 
-    // Validation
     const validation = validateUserSignup({ name, email, password, address });
     if (!validation.valid) {
       return res.status(400).json({ errors: validation.errors });
     }
 
-    // Validate role
     if (!Object.values(USER_ROLES).includes(role)) {
       return res.status(400).json({ error: "Invalid role" });
     }
 
-    // Check if user already exists
     const existingUser = await User.findByEmail(email);
     if (existingUser) {
       return res.status(400).json({ error: "Email already registered" });
     }
 
-    // Create user
     const user = await User.create({
       name,
       email,
@@ -94,7 +90,6 @@ export const getUserDetails = async (req, res, next) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // If user is a store owner, include their store rating
     if (user.role === USER_ROLES.STORE_OWNER) {
       const storeResult = await Store.getAll({ sortBy: "id" }, 1, 1000);
       const store = storeResult.data.find((s) => s.owner_id === userId);
@@ -116,7 +111,6 @@ export const updateUser = async (req, res, next) => {
     const userId = req.params.id;
     const { name, email, address } = req.body;
 
-    // Validate data
     if (name) {
       const nameValidation = validateName(name);
       if (!nameValidation.valid) {
@@ -128,7 +122,6 @@ export const updateUser = async (req, res, next) => {
       if (!validateEmail(email)) {
         return res.status(400).json({ error: "Invalid email format" });
       }
-      // Check if email is already taken
       const existingUser = await User.findByEmail(email);
       if (existingUser && existingUser.id !== parseInt(userId)) {
         return res.status(400).json({ error: "Email already registered" });

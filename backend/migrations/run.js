@@ -6,20 +6,18 @@ dotenv.config();
 const { Client } = pkg;
 
 async function runMigrations() {
-  // First, create the database if it doesn't exist
   const adminClient = new Client({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: "postgres", // Connect to default postgres database
+    database: "postgres",
   });
 
   try {
     await adminClient.connect();
     console.log("Connected to PostgreSQL server");
 
-    // Check if database exists
     const dbCheckResult = await adminClient.query(
       `SELECT 1 FROM pg_database WHERE datname = $1`,
       [process.env.DB_NAME],
@@ -38,7 +36,6 @@ async function runMigrations() {
     await adminClient.end();
   }
 
-  // Now connect to the rating_system database and create schema
   const client = new Client({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -51,7 +48,6 @@ async function runMigrations() {
     await client.connect();
     console.log(`Connected to ${process.env.DB_NAME} database`);
 
-    // Create users table
     await client.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -66,7 +62,6 @@ async function runMigrations() {
     `);
     console.log("Users table created/verified");
 
-    // Create stores table
     await client.query(`
       CREATE TABLE IF NOT EXISTS stores (
         id SERIAL PRIMARY KEY,
@@ -80,7 +75,6 @@ async function runMigrations() {
     `);
     console.log("Stores table created/verified");
 
-    // Create ratings table
     await client.query(`
       CREATE TABLE IF NOT EXISTS ratings (
         id SERIAL PRIMARY KEY,
@@ -94,7 +88,6 @@ async function runMigrations() {
     `);
     console.log("Ratings table created/verified");
 
-    // Create indexes
     await client.query(
       `CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)`,
     );
@@ -112,7 +105,6 @@ async function runMigrations() {
     );
     console.log("Indexes created/verified");
 
-    // Seed admin user if not exists
     const bcrypt = (await import("bcryptjs")).default;
     const adminPassword = await bcrypt.hash("Admin@123", 10);
 
@@ -130,7 +122,6 @@ async function runMigrations() {
       console.log("Admin user created: admin@ratingsystem.com / Admin@123");
     }
 
-    // Seed store owner and store if not exists
     const ownerPassword = await bcrypt.hash("Owner@123", 10);
     const ownerCheck = await client.query(
       `SELECT id FROM users WHERE email = 'owner@store.com'`,
@@ -152,7 +143,6 @@ async function runMigrations() {
       ownerId = ownerCheck.rows[0].id;
     }
 
-    // Seed store if not exists
     const storeCheck = await client.query(
       `SELECT id FROM stores WHERE email = 'contact@demostore.com'`,
     );
@@ -167,7 +157,6 @@ async function runMigrations() {
       console.log("Demo store created");
     }
 
-    // Seed normal user if not exists
     const userPassword = await bcrypt.hash("User@123", 10);
     const userCheck = await client.query(
       `SELECT id FROM users WHERE email = 'user@example.com'`,

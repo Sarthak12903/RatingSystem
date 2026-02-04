@@ -6,7 +6,6 @@ dotenv.config();
 
 const { Client } = pkg;
 
-// Support both DATABASE_URL (for Render) and individual env vars (for local)
 const clientConfig = process.env.DATABASE_URL
   ? {
       connectionString: process.env.DATABASE_URL,
@@ -27,7 +26,6 @@ async function seed() {
     await client.connect();
     console.log("Connected to rating_system database");
 
-    // Check if admin exists
     const existingAdmin = await client.query(
       `SELECT id FROM users WHERE email = $1`,
       ["admin@ratingsystem.com"],
@@ -39,7 +37,6 @@ async function seed() {
       return;
     }
 
-    // Create admin user (password: Admin@123)
     const hashedPassword = await bcrypt.hash("Admin@123", 10);
     await client.query(
       `INSERT INTO users (name, email, password, address, role)
@@ -54,7 +51,6 @@ async function seed() {
     );
     console.log("Admin user created: admin@ratingsystem.com / Admin@123");
 
-    // Create a sample store owner (password: Owner@123)
     const ownerPassword = await bcrypt.hash("Owner@123", 10);
     await client.query(
       `INSERT INTO users (name, email, password, address, role)
@@ -69,7 +65,6 @@ async function seed() {
     );
     console.log("Store owner created: owner@store.com / Owner@123");
 
-    // Create sample normal user (password: User@123)
     const userPassword = await bcrypt.hash("User@123", 10);
     await client.query(
       `INSERT INTO users (name, email, password, address, role)
@@ -84,7 +79,6 @@ async function seed() {
     );
     console.log("Normal user created: user@example.com / User@123");
 
-    // Create a sample store
     const storeOwnerResult = await client.query(
       `SELECT id FROM users WHERE email = $1`,
       ["owner@store.com"],

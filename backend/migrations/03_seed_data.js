@@ -30,7 +30,7 @@ async function seed() {
     // Check if admin exists
     const existingAdmin = await client.query(
       `SELECT id FROM users WHERE email = $1`,
-      ["admin@example.com"],
+      ["admin@ratingsystem.com"],
     );
 
     if (existingAdmin.rows.length > 0) {
@@ -46,13 +46,13 @@ async function seed() {
        VALUES ($1, $2, $3, $4, $5)`,
       [
         "System Administrator User",
-        "admin@example.com",
+        "admin@ratingsystem.com",
         hashedPassword,
         "123 Admin Street, Admin City",
         "admin",
       ],
     );
-    console.log("Admin user created: admin@example.com / Admin@123");
+    console.log("Admin user created: admin@ratingsystem.com / Admin@123");
 
     // Create a sample store owner (password: Owner@123)
     const ownerPassword = await bcrypt.hash("Owner@123", 10);
@@ -61,13 +61,13 @@ async function seed() {
        VALUES ($1, $2, $3, $4, $5)`,
       [
         "Sample Store Owner User",
-        "storeowner@example.com",
+        "owner@store.com",
         ownerPassword,
         "456 Store Street, Shop City",
         "store_owner",
       ],
     );
-    console.log("Store owner created: storeowner@example.com / Owner@123");
+    console.log("Store owner created: owner@store.com / Owner@123");
 
     // Create sample normal user (password: User@123)
     const userPassword = await bcrypt.hash("User@123", 10);
@@ -87,7 +87,7 @@ async function seed() {
     // Create a sample store
     const storeOwnerResult = await client.query(
       `SELECT id FROM users WHERE email = $1`,
-      ["storeowner@example.com"],
+      ["owner@store.com"],
     );
 
     await client.query(
@@ -103,8 +103,8 @@ async function seed() {
     console.log("Sample store created");
 
     console.log("\n=== Seed data completed ===");
-    console.log("Admin: admin@example.com / Admin@123");
-    console.log("Store Owner: storeowner@example.com / Owner@123");
+    console.log("Admin: admin@ratingsystem.com / Admin@123");
+    console.log("Store Owner: owner@store.com / Owner@123");
     console.log("Normal User: user@example.com / User@123");
 
     await client.end();

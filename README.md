@@ -13,7 +13,7 @@ Built with **Express.js** (Backend), **PostgreSQL** (Database), **React.js** + *
 | Role           | Email                    | Password    |
 | -------------- | ------------------------ | ----------- |
 | 👑 **Admin**   | `admin@ratingsystem.com` | `Admin@123` |
-| 🏬 Store Owner | `owner@store.com`.       | `Owner@123` |
+| 🏬 Store Owner | `owner@store.com`        | `Owner@123` |
 | 👤 Normal User | `user@example.com`       | `User@123`  |
 
 ---

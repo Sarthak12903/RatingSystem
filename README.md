@@ -6,14 +6,14 @@ Built with **Express.js** (Backend), **PostgreSQL** (Database), **React.js** + *
 
 ---
 
-## 🔐 Demo Credentials
+## Default Login Credentials
 
-> **Quick Access**: Use these credentials to test the application after setup
+> ⚠️ **Important**: These are the default seeded credentials for testing purposes.
 
 | Role           | Email                    | Password    |
 | -------------- | ------------------------ | ----------- |
-| 👑 **Admin**   | `admin@example.com`      | `Admin@123` |
-| 🏬 Store Owner | `storeowner@example.com` | `Owner@123` |
+| 👑 **Admin**   | `admin@ratingsystem.com` | `Admin@123` |
+| 🏬 Store Owner | `owner@store.com`.       | `Owner@123` |
 | 👤 Normal User | `user@example.com`       | `User@123`  |
 
 ---
@@ -261,18 +261,6 @@ RatingSystem/
    ```
 
    The frontend will run on `http://localhost:3000`
-
-## Default Login Credentials
-
-> ⚠️ **Important**: These are the default seeded credentials for testing purposes.
-
-| Role           | Email                    | Password    |
-| -------------- | ------------------------ | ----------- |
-| 👑 **Admin**   | `admin@example.com`      | `Admin@123` |
-| 🏬 Store Owner | `storeowner@example.com` | `Owner@123` |
-| 👤 Normal User | `user@example.com`       | `User@123`  |
-
----
 
 ## 🔗 API Endpoints
 
